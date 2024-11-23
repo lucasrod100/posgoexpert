@@ -24,7 +24,7 @@ var db *sql.DB
 func main() {
 	setupDB()
 	defer db.Close()
-	http.HandleFunc("/", CotacaoUsdHandleer)
+	http.HandleFunc("/cotacao", CotacaoUsdHandleer)
 	http.ListenAndServe(":8080", nil)
 }
 
@@ -102,7 +102,6 @@ func saveDollarQuote(dollarQuote DollarQuote) error {
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Millisecond)
 	defer cancel()
 
-	// Inserção no banco de dados
 	query := `INSERT INTO cotacoes (bid) VALUES (?)`
 	_, err := db.ExecContext(ctx, query, dollarQuote.Usdbrl.Bid)
 
