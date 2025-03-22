@@ -84,7 +84,7 @@ func main() {
 }
 
 func getRabbitMQChannel(user, pass, port string) *amqp.Channel {
-	conn, err := amqp.Dial("amqp://" + user + ":" + pass + "@localhost:" + port + "/")
+	conn, err := amqp.Dial("amqp://" + user + ":" + pass + "@rabbitmq:" + port + "/")
 	if err != nil {
 		panic(err)
 	}

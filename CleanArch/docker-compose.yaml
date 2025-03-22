@@ -3,7 +3,7 @@ version: '3'
 services:
   mysql:
     image: mysql:8.4
-    container_name: mysql
+    container_name: mysql-clean-arch
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: root
@@ -25,3 +25,29 @@ services:
     environment:
       RABBITMQ_DEFAULT_USER: guest
       RABBITMQ_DEFAULT_PASS: guest
+    healthcheck:
+      test: ["CMD", "rabbitmqctl", "status"]
+      interval: 10s
+      timeout: 5s
+      retries: 5  
+  app:
+    build: .
+    depends_on:
+      - mysql
+      - rabbitmq
+    command: go run main.go wire_gen.go
+    environment:
+      DB_HOST: mysql
+      DB_USER: root
+      DB_PASSWORD: root
+      DB_NAME: orders
+      RABBITMQ_HOST: rabbitmq
+      RABBITMQ_USER: guest
+      RABBITMQ_PASSWORD: guest
+    volumes:
+      - .:/app
+    working_dir: /app/cmd/ordersystem
+    ports:
+      - "8000:8000"
+      - "50051:50051"
+      - "8080:8080"

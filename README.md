@@ -19,8 +19,8 @@
 
 ## Desafio: Clean Architecture
 ### Execução da aplicação
-- docker compose up -d
-- go run main.go wire_gen.go
+- docker-compose up -d
+- Executando o comando acima já inicia toda a aplicação e com o banco de dados criado
 ### Endpoints e Portas de cada serviço
 - **REST API** HTTP (GET /order) - 8000
 - **gRPC** ListOrders Service - 50051
